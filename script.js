@@ -8,10 +8,15 @@ document.addEventListener('DOMContentLoaded', () => {
   const calendarEmbedUrlSettings = document.getElementById('calendarEmbedUrlSettings');
   const saveCalendarUrl = document.getElementById('saveCalendarUrl');
   const saveCalendarUrlSettings = document.getElementById('saveCalendarUrlSettings');
+  const wideWidgetPanel = document.getElementById('wideWidgetPanel');
+  const wideWidgetEmbed = document.getElementById('wideWidgetEmbed');
+  const wideWidgetToggle = document.getElementById('wideWidgetToggle');
 
   const getStoredCalendarUrl = () => localStorage.getItem('newtab-google-calendar-embed-url') || '';
   const setStoredCalendarUrl = (value) => localStorage.setItem('newtab-google-calendar-embed-url', value);
   const getCalendarEnabled = () => localStorage.getItem('newtab-calendar-enabled') !== 'false';
+  const getWideWidgetEnabled = () => localStorage.getItem('newtab-wide-widget-enabled') !== 'false';
+  const wideWidgetUrl = 'https://cschroeder-barstow.github.io/Bookmarker/';
 
   function updateCalendarVisibility() {
     if (!calendarPanel) return;
@@ -54,12 +59,19 @@ document.addEventListener('DOMContentLoaded', () => {
     input.setCustomValidity('');
   }
 
+  function renderWideWidget() {
+    const enabled = getWideWidgetEnabled();
+
+    if (wideWidgetPanel) wideWidgetPanel.classList.toggle('is-hidden', !enabled);
+    if (wideWidgetEmbed) wideWidgetEmbed.src = enabled ? wideWidgetUrl : 'about:blank';
+    if (wideWidgetToggle) wideWidgetToggle.checked = enabled;
+  }
+
   const storedCalendarUrl = getStoredCalendarUrl();
   if (calendarEmbedUrlInput) calendarEmbedUrlInput.value = storedCalendarUrl;
   if (calendarEmbedUrlSettings) calendarEmbedUrlSettings.value = storedCalendarUrl;
   if (saveCalendarUrl && calendarEmbedUrlInput) saveCalendarUrl.addEventListener('click', () => saveCalendarEmbedUrl(calendarEmbedUrlInput));
   if (saveCalendarUrlSettings && calendarEmbedUrlSettings) saveCalendarUrlSettings.addEventListener('click', () => saveCalendarEmbedUrl(calendarEmbedUrlSettings));
-
   if (calendarToggle) {
     calendarToggle.checked = getCalendarEnabled();
     calendarToggle.addEventListener('change', (event) => {
@@ -75,8 +87,17 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  if (wideWidgetToggle) {
+    wideWidgetToggle.checked = getWideWidgetEnabled();
+    wideWidgetToggle.addEventListener('change', (event) => {
+      localStorage.setItem('newtab-wide-widget-enabled', String(event.target.checked));
+      renderWideWidget();
+    });
+  }
+
   updateCalendarVisibility();
   renderCalendar();
+  renderWideWidget();
 });
 
 const weatherSearchForm = document.getElementById("weather-search-form");
