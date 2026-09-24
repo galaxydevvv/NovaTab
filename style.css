@@ -1,0 +1,379 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-image: url('wallpaper.png');
+    background-size: cover;
+    background-position: center;
+    min-height: 100vh;
+    position: relative;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+.container {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: min(600px, calc(100vw - 32px));
+    max-width: 600px;
+    z-index: 2;
+}
+
+.calendar-panel {
+    position: fixed;
+    left: 24px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: min(220px, calc(100vw - 32px));
+    height: min(640px, calc(100vh - 120px));
+    padding: 10px;
+    background: rgba(20, 20, 24, 0.72);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 22px;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+    box-sizing: border-box;
+    z-index: 2;
+    overflow: hidden;
+    display: block;
+}
+
+.calendar-panel.is-hidden {
+    display: none;
+}
+
+.calendar-frame {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.96);
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+.calendar-embed {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: none;
+}
+
+.calendar-embed.is-visible {
+    display: block;
+}
+
+.calendar-setup {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    align-content: center;
+    gap: 10px;
+    padding: 22px;
+    color: #202124;
+    background: rgba(255, 255, 255, 0.96);
+    box-sizing: border-box;
+}
+
+.calendar-setup.is-hidden {
+    display: none;
+}
+
+.calendar-setup h2 {
+    margin: 0;
+    font-size: 17px;
+}
+
+.calendar-setup p {
+    margin: 0;
+    font-size: 12px;
+    line-height: 1.45;
+}
+
+.calendar-setup label,
+.calendar-guide {
+    color: #5f6368;
+    font-size: 11px;
+}
+
+.calendar-setup input[type="url"] {
+    width: 100%;
+    padding: 9px 10px;
+    border: 1px solid #dadce0;
+    border-radius: 7px;
+    box-sizing: border-box;
+    color: #202124;
+    font-size: 11px;
+}
+
+.weather {
+    position: fixed;
+    top: 24px;
+    right: 24px;
+    z-index: 2;
+}
+
+.weather-widget {
+    width: min(220px, calc(100vw - 32px));
+    padding: 12px;
+    color: #ffffff;
+    background: rgba(30, 30, 32, 0.72);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 18px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    box-sizing: border-box;
+    text-align: center;
+    transition: all 0.2s ease-in-out;
+}
+
+.weather-widget:hover,
+.weather-widget:focus-within {
+    background: rgba(40, 40, 45, 0.75);
+    border-color: rgba(255, 255, 255, 0.18);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+}
+
+.search-box,
+.google-search {
+    display: flex;
+    align-items: center;
+}
+
+.search-box input {
+    box-sizing: border-box;
+    padding: 6px 8px;
+    border: none;
+    border-radius: 20px 0 0 20px;
+    outline: none;
+    width: calc(100% - 62px);
+    font-size: 12px;
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.12);
+}
+
+.search-box button {
+    padding: 6px 8px;
+    border: none;
+    background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    color: #d6d6d8;
+    border-radius: 0 20px 20px 0;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: bold;
+    transition: background 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+
+.search-box button:hover,
+.search-box button:focus-visible {
+    background: rgba(0, 0, 0, 0.75);
+    color: #ffffff;
+    outline: none;
+}
+
+.weather-info h2 {
+    margin: 12px 0 4px;
+    font-size: 16px;
+}
+
+.weather-info p {
+    margin: 5px 0;
+    font-size: 12px;
+}
+
+.temp-container {
+    font-size: 32px;
+    font-weight: bold;
+    margin: 8px 0;
+}
+
+.details {
+    display: flex;
+    justify-content: space-around;
+    font-size: 11px;
+    margin-top: 10px;
+}
+
+.google-search {
+    width: 100%;
+    padding: 12px 22px;
+    background: rgba(30, 30, 32, 0.65);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 24px;
+    box-sizing: border-box;
+    transition: all 0.2s ease-in-out;
+}
+
+.google-search:hover,
+.google-search:focus-within {
+    background: rgba(40, 40, 45, 0.75);
+    border-color: rgba(255, 255, 255, 0.18);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+}
+
+.google-search input {
+    flex: 1;
+    min-width: 0;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    color: #ffffff;
+    background: transparent;
+    padding-right: 12px;
+}
+
+.google-search button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    color: #9aa0a6;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.google-search button:hover,
+.google-search button:focus-visible {
+    color: #ffffff;
+    outline: none;
+}
+
+.google-search svg {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+}
+
+.settings-button {
+    position: fixed;
+    right: 24px;
+    bottom: 24px;
+    width: 20px;
+    height: 20px;
+    padding: 0;
+    color: #d6d6d8;
+    background: none;
+    border: none;
+    display: block;
+    cursor: pointer;
+}
+
+.settings-button svg {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+}
+
+.settings-panel {
+    position: fixed;
+    right: 24px;
+    bottom: 84px;
+    display: grid;
+    gap: 12px;
+    width: min(280px, calc(100vw - 48px));
+    padding: 18px;
+    color: #f4f4f5;
+    background: rgba(30, 30, 32, 0.88);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 16px;
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.3);
+    box-sizing: border-box;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(8px);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.settings-panel.is-open {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+}
+
+.settings-panel h2 {
+    margin: 0;
+    font-size: 16px;
+}
+
+.settings-panel label {
+    color: #b8b8bd;
+    font-size: 13px;
+}
+
+.toggle-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+}
+
+.toggle-row input {
+    width: 14px;
+    height: 14px;
+    margin: 0;
+}
+
+.settings-panel input {
+    max-width: 100%;
+    color: #d6d6d8;
+    font-size: 12px;
+}
+
+#calendarEmbedUrlSettings {
+    padding: 8px 10px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.reset-button {
+    padding: 9px 12px;
+    color: #f4f4f5;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.reset-button:hover,
+.reset-button:focus-visible {
+    background: rgba(255, 255, 255, 0.18);
+    outline: none;
+}
+
+@media (max-width: 600px) {
+    .calendar-panel {
+        left: 16px;
+        top: 16px;
+        transform: none;
+    }
+
+    .weather {
+        top: 16px;
+        right: 16px;
+    }
+
+    .container {
+        top: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    .settings-button {
+        right: 16px;
+        bottom: 16px;
+    }
+
+    .settings-panel {
+        right: 16px;
+        bottom: 76px;
+    }
+}
