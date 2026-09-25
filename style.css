@@ -19,6 +19,37 @@ body {
     z-index: 2;
 }
 
+.clock-container {
+    top: calc(50% - 110px);
+    color: #ffffff;
+    text-align: center;
+}
+
+.clock-container h1 {
+    margin: 0;
+    font-family: "Space Grotesk", sans-serif;
+    font-size: clamp(48px, min(10vw, 15vh), 120px);
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    line-height: 1.05;
+    white-space: nowrap;
+    background: linear-gradient(135deg, #ffffff 15%, #b8d9ff 50%, #8c7dff 90%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-shadow: 0 0 30px rgba(156, 176, 255, 0.3);
+    animation: clockGlow 4s ease-in-out infinite alternate;
+}
+
+@keyframes clockGlow {
+    from {
+        filter: drop-shadow(0 0 8px rgba(132, 170, 255, 0.3));
+    }
+    to {
+        filter: drop-shadow(0 0 22px rgba(172, 126, 255, 0.65));
+    }
+}
+
 .calendar-panel {
     position: fixed;
     left: 24px;

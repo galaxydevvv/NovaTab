@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const setStoredCalendarUrl = (value) => localStorage.setItem('newtab-google-calendar-embed-url', value);
   const getCalendarEnabled = () => localStorage.getItem('newtab-calendar-enabled') !== 'false';
   const getWideWidgetEnabled = () => localStorage.getItem('newtab-wide-widget-enabled') !== 'false';
-  const wideWidgetUrl = 'https://cschroeder-barstow.github.io/Bookmarker/';
+  const wideWidgetUrl = 'https://cschroeder-barstow.github.io/Bookmarker/widget';
 
   function updateCalendarVisibility() {
     if (!calendarPanel) return;
@@ -211,3 +211,16 @@ const settingsButton = document.getElementById('settingsButton');
     localStorage.removeItem('newtab-background');
     backgroundUpload.value = '';
   });
+  const timeElement = document.querySelector('#timeElement');
+
+  function updateClock() {
+    if (!timeElement) return;
+
+    timeElement.textContent = new Date().toLocaleTimeString([], {
+      hour: 'numeric',
+      minute: '2-digit'
+    });
+  }
+
+  updateClock();
+  setInterval(updateClock, 60000);
