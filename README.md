@@ -15,7 +15,7 @@
 
 **NovaTab** is a fresh and new minismic new tab designed for max productiviy and style without having too much!
 
-![Static Badge](https://img.shields.io/badge/build_version-v1.4.9-green)
+![Static Badge](https://img.shields.io/badge/build_version-v1.5.1-green)
 
 (Green=stable Yellow=pendingUpdate Red=Unstable)
 # Credits
