@@ -63,8 +63,8 @@
   </form>
 </div>
 
-<section class="wide-widget-panel is-hidden" id="wideWidgetPanel" aria-label="Embedded widget">
-  <iframe class="wide-widget-embed" id="wideWidgetEmbed" title="Embedded widget" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+<section class="wide-widget-panel is-hidden" id="wideWidgetPanel" aria-label="Website shortcuts">
+  <div class="wide-widget-links" id="wideWidgetLinks" aria-label="Website shortcuts"></div>
 </section>
 
 <button class="settings-button" id="settingsButton" type="button" aria-label="Open settings" aria-expanded="false" aria-controls="settingsPanel">
@@ -91,8 +91,16 @@
   <h2>Widgets</h2>
   <label class="toggle-row" for="wideWidgetToggle">
     <input id="wideWidgetToggle" type="checkbox" checked>
-    <span>Show Bookmarker widget</span>
+    <span>Show website shortcuts</span>
   </label>
+  <label for="wideWidgetUrl1">Shortcut 1 URL</label>
+  <input class="wide-widget-url" id="wideWidgetUrl1" type="url" autocomplete="url">
+  <label for="wideWidgetUrl2">Shortcut 2 URL</label>
+  <input class="wide-widget-url" id="wideWidgetUrl2" type="url" autocomplete="url">
+  <label for="wideWidgetUrl3">Shortcut 3 URL</label>
+  <input class="wide-widget-url" id="wideWidgetUrl3" type="url" autocomplete="url">
+  <label for="wideWidgetUrl4">Shortcut 4 URL</label>
+  <input class="wide-widget-url" id="wideWidgetUrl4" type="url" autocomplete="url">
 </aside>
 
 <script src="script.js"></script>

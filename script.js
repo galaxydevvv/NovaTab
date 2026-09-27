@@ -9,14 +9,28 @@ document.addEventListener('DOMContentLoaded', () => {
   const saveCalendarUrl = document.getElementById('saveCalendarUrl');
   const saveCalendarUrlSettings = document.getElementById('saveCalendarUrlSettings');
   const wideWidgetPanel = document.getElementById('wideWidgetPanel');
-  const wideWidgetEmbed = document.getElementById('wideWidgetEmbed');
+  const wideWidgetLinks = document.getElementById('wideWidgetLinks');
   const wideWidgetToggle = document.getElementById('wideWidgetToggle');
+  const wideWidgetUrlInputs = Array.from(document.querySelectorAll('.wide-widget-url'));
 
   const getStoredCalendarUrl = () => localStorage.getItem('newtab-google-calendar-embed-url') || '';
   const setStoredCalendarUrl = (value) => localStorage.setItem('newtab-google-calendar-embed-url', value);
   const getCalendarEnabled = () => localStorage.getItem('newtab-calendar-enabled') !== 'false';
   const getWideWidgetEnabled = () => localStorage.getItem('newtab-wide-widget-enabled') !== 'false';
-  const wideWidgetUrl = 'https://cschroeder-barstow.github.io/Bookmarker/widget';
+  const defaultWideWidgetUrls = [
+    'https://open.spotify.com/playlist/5FkAfbzgdbV85Un5vfF6YG?si=_m8nCOvRSdiQC3MrUBa73A',
+    'https://www.youtube.com',
+    'https://stardance.hackclub.com/home',
+    'https://github.com'
+  ];
+  const getWideWidgetUrls = () => {
+    try {
+      const storedUrls = JSON.parse(localStorage.getItem('newtab-wide-widget-urls') || 'null');
+      return defaultWideWidgetUrls.map((url, index) => storedUrls?.[index] ?? url);
+    } catch {
+      return defaultWideWidgetUrls;
+    }
+  };
 
   function updateCalendarVisibility() {
     if (!calendarPanel) return;
@@ -63,8 +77,50 @@ document.addEventListener('DOMContentLoaded', () => {
     const enabled = getWideWidgetEnabled();
 
     if (wideWidgetPanel) wideWidgetPanel.classList.toggle('is-hidden', !enabled);
-    if (wideWidgetEmbed) wideWidgetEmbed.src = enabled ? wideWidgetUrl : 'about:blank';
     if (wideWidgetToggle) wideWidgetToggle.checked = enabled;
+    const urls = getWideWidgetUrls();
+    wideWidgetUrlInputs.forEach((input, index) => {
+      input.value = urls[index];
+    });
+    if (wideWidgetLinks) {
+      wideWidgetLinks.replaceChildren(...urls.map((value) => {
+        const url = new URL(value);
+        const link = document.createElement('a');
+        link.className = 'wide-widget-link';
+        link.setAttribute('aria-label', `Open ${url.hostname}`);
+        link.href = url.href;
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+        link.title = url.hostname;
+
+        const icon = document.createElement('img');
+        icon.src = `https://www.google.com/s2/favicons?domain_url=${encodeURIComponent(url.href)}&sz=128`;
+        icon.alt = '';
+        icon.loading = 'lazy';
+        link.append(icon);
+        return link;
+      }));
+    }
+  }
+
+  function saveWideWidgetUrls() {
+    const urls = wideWidgetUrlInputs.map((input, index) => {
+      const value = input.value.trim();
+      if (!value) return defaultWideWidgetUrls[index];
+      try {
+        const url = new URL(value);
+        if (url.protocol !== 'https:') throw new Error('URL must use HTTPS');
+        input.setCustomValidity('');
+        return url.href;
+      } catch {
+        input.setCustomValidity('Enter a valid HTTPS website URL.');
+        input.reportValidity();
+        return null;
+      }
+    });
+    if (urls.some((url) => url === null)) return;
+    localStorage.setItem('newtab-wide-widget-urls', JSON.stringify(urls));
+    renderWideWidget();
   }
 
   const storedCalendarUrl = getStoredCalendarUrl();
@@ -94,6 +150,7 @@ document.addEventListener('DOMContentLoaded', () => {
       renderWideWidget();
     });
   }
+  wideWidgetUrlInputs.forEach((input) => input.addEventListener('change', saveWideWidgetUrls));
 
   updateCalendarVisibility();
   renderCalendar();
